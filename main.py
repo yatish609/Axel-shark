@@ -40,9 +40,15 @@ def capture_packets():
         logger.info('Packets captured successfully!')
     except pcapy.PcapError:
         logger.error('Problem with capture device!')
-        output.insert(tk.END,'\n Problem with capture device! \n')
+        output.insert(tk.END,'\n Problem with capture device!')
+    except:
+        logger.error('Some other error')
+        output.insert(tk.END,'\n Some unknown error!')
 
 capture_packets_button = Button(root, text="Capture", command=capture_packets)
 capture_packets_button.pack()
+
+button = tk.Button(root, text = 'Exit', command=root.destroy)
+button.pack()
 
 mainloop()
