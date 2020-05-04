@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1082</width>
+    <height>771</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Packet Sniffer</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTextEdit" name="Filters">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>821</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Filters</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="searchButton">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>50</y>
+      <width>88</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Apply</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="Packets">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>1041</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <property name="rowCount">
+     <number>0</number>
+    </property>
+    <property name="columnCount">
+     <number>7</number>
+    </property>
+    <column>
+     <property name="text">
+      <string>No</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Time</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Source</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Destination</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Protocol</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Length</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Info</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QTreeWidget" name="packetInfo">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>360</y>
+      <width>1041</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string/>
+     </property>
+    </column>
+    <item>
+     <property name="text">
+      <string>IP</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>New Subitem</string>
+      </property>
+     </item>
+    </item>
+    <item>
+     <property name="text">
+      <string>HTTP</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>New Subitem</string>
+      </property>
+     </item>
+    </item>
+    <item>
+     <property name="text">
+      <string>Transmission control protocol</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>New Subitem</string>
+      </property>
+     </item>
+    </item>
+    <item>
+     <property name="text">
+      <string>New Item</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>New Item</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QTextBrowser" name="packetHex">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>570</y>
+      <width>1041</width>
+      <height>131</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="interfaceLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Choose Interface:</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="interfacesList">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>10</y>
+      <width>791</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="statusTip">
+     <string>Choose Interface for packets capture</string>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <item>
+     <property name="text">
+      <string>Test</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QPushButton" name="captureButton">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>10</y>
+      <width>88</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Capture</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="clearFiltersButton">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>50</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clear</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1082</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuCapture">
+    <property name="title">
+     <string>Capture</string>
+    </property>
+    <addaction name="actionStart_Capture"/>
+    <addaction name="actionStop_Capture"/>
+   </widget>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionInstructions"/>
+    <addaction name="actionAbout"/>
+   </widget>
+   <widget class="QMenu" name="menuFilters">
+    <property name="title">
+     <string>Filters</string>
+    </property>
+    <widget class="QMenu" name="menuFilter_by_type">
+     <property name="title">
+      <string>Filter by type</string>
+     </property>
+     <addaction name="actionUDP"/>
+     <addaction name="actionTCP"/>
+    </widget>
+    <addaction name="menuFilter_by_type"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuCapture"/>
+   <addaction name="menuFilters"/>
+   <addaction name="menuAbout"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="statusTip">
+    <string>Saves a file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionStart_Capture">
+   <property name="text">
+    <string>Start Capture</string>
+   </property>
+  </action>
+  <action name="actionStop_Capture">
+   <property name="text">
+    <string>Stop Capture</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionInstructions">
+   <property name="text">
+    <string>Instructions</string>
+   </property>
+  </action>
+  <action name="actionUDP">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>UDP</string>
+   </property>
+  </action>
+  <action name="actionTCP">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>TCP</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
