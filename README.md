@@ -1,6 +1,6 @@
-# Python-Packet-Sniffer
+# Axel-Shark
 
-Packet Sniffer created using PyQt5 interface and Scapy in Python.
+Axel-Shark is a packet sniffer tool created using PyQt5 and Scapy in Python.
 
 Libraries used: 
 > PyQt5
