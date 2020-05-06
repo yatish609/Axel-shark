@@ -1,6 +1,6 @@
 # Python-Packet-Sniffer
 
-Packet Sniffer created using PyQt5 interface and Pyshark in Python.
+Packet Sniffer created using PyQt5 interface and Scapy in Python.
 
 Libraries used: 
 > PyQt5
