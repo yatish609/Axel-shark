@@ -7,6 +7,31 @@ from time import sleep
 import netifaces
 import logging
 
+class SnifferThread(QtCore.QThread):
+        connection = QtCore.pyqtSignal(list)
+        def print_packet(self,packet):
+            ip_layer = packet.getlayer(IP)
+            packet_length = str(len(packet))
+            row_Data = [str(packet.time),str(ip_layer.src),str(ip_layer.dst)]
+            #print("Raw packet data: " + str(packet))
+            #print(packet.show())
+            #print(packet.show2())
+            #print(packet.display())
+            if(packet.haslayer('TCP')):
+                row_Data.append('TCP')
+            elif(packet.haslayer('UDP')):
+                row_Data.append('UDP')
+            elif(packet.haslayer('ICMP')):
+                row_Data.append('ICMP')
+                    
+            row_Data.append(packet_length)
+            row_Data.append('info here')
+            self.connection.emit(row_Data)
+    
+        def run(self):
+            sniff(iface='wlo1', filter="ip", prn=self.print_packet)
+
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -199,86 +224,38 @@ class Ui_MainWindow(object):
         self.actionUDP.setText(_translate("MainWindow", "UDP"))
         self.actionTCP.setText(_translate("MainWindow", "TCP"))
 
-    def capture_btn_clicked(self):
-        self.sniff_Class()
-        
-    def sniff_Class(self):
+    def getPackets(self):
+        return self.Packets
 
-        Outerclass = self
+    current_row = 0
+    def addRowData(self,Data):
+        self.Packets.insertRow(self.current_row)
+        column_number = 0
+        for packet_Data in Data:
+            self.Packets.setItem(self.current_row,column_number,QtWidgets.QTableWidgetItem(str(packet_Data)))
+            column_number = column_number + 1
+        self.current_row = self.current_row + 1
+
+
+    def capture_btn_clicked(self):
         interface_chosen = str(self.interfacesList.currentText())
-        
         try:
             if(interface_chosen=='Select Interface for Capturing Packets'):
                 self.msg = QtWidgets.QMessageBox()
                 self.msg.setIcon(QtWidgets.QMessageBox.Critical)
                 self.msg.setWindowTitle("Interface error!")
-                self.msg.setText("The selected interface is not a valid interface for capture! \n Please choose a valid interface.")
-                x = self.msg.exec_()
+                self.msg.setText("Not a valid capture interface! \nPlease choose a valid interface.")
+                self.msg.exec_()
+            else:
+                self.captureButton.setText("Stop")
+                self.Thread = SnifferThread()
+                self.Thread.connection.connect(self.addRowData)
+                self.Thread.start()
+
         except:
             self.logger.error('Wrong interface selected!')
             self.captureButton.disconnect()
-        
-        class Sniffer(Thread):
-            current_row = 0
-            def  __init__(self, interface=interface_chosen):
-                super().__init__()
-                self.daemon = True
-                self.socket = None
-                self.interface = interface
-                self.stop_sniffer = Event()
-
-            def run(self):
-                self.socket = conf.L2listen(type=ETH_P_ALL,iface=self.interface,filter="ip")
-                sniff(opened_socket=self.socket,prn=self.print_packet,stop_filter=self.should_stop_sniffer)
-
-            def join(self, timeout=None):
-                self.stop_sniffer.set()
-                super().join(timeout)
-
-            def should_stop_sniffer(self, packet):
-                return self.stop_sniffer.isSet()
-
-            def print_packet(self, packet):
-                ip_layer = packet.getlayer(IP)
-                packet_length = str(len(packet))
-                Outerclass.Packets.insertRow(self.current_row)
-                row_Data = [packet.time,ip_layer.src,ip_layer.dst]
-                
-                print("[!] New Packet: {src} -> {dst}".format(src=ip_layer.src, dst=ip_layer.dst))
-                #print("Raw packet data: " + str(packet))
-                #print(packet.show())
-                #print(packet.show2())
-                #print(packet.display())
-                if(packet.haslayer('TCP')):
-                    row_Data.append('TCP')
-                elif(packet.haslayer('UDP')):
-                    row_Data.append('UDP')
-                elif(packet.haslayer('ICMP')):
-                    row_Data.append('ICMP')
-                
-                row_Data.append(packet_length)
-                row_Data.append('info here')
-                column_number = 0
-                for packet_Data in row_Data:
-                    Outerclass.Packets.setItem(self.current_row,column_number,QtWidgets.QTableWidgetItem(str(packet_Data)))
-                    column_number = column_number + 1
-                
-                self.current_row = self.current_row + 1
-
-        Outerclass.Packets.setRowCount(0)
-        sniffer = Sniffer()
-        self.captureButton.disconnect()
-        sniffer.start()
-
-        try:
-            while True:
-                sleep(100)
-        except KeyboardInterrupt:
-            sniffer.join(2.0)
-
-            if sniffer.is_alive():
-                sniffer.socket.close()   
-
+             
 
 if __name__ == "__main__":
     import sys
