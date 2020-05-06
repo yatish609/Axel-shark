@@ -5,7 +5,7 @@ Packet Sniffer created using PyQt5 interface and Pyshark in Python.
 Libraries used: 
 > PyQt5
 
-> Pyshark
+> Scapy
 
 > Netifaces
 

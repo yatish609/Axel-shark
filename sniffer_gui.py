@@ -1,31 +1,41 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Packet_Sniffer.ui'
-#
-# Created by: PyQt5 UI code generator 5.14.2
-#
-# WARNING! All changes made in this file will be lost!
-
-import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from scapy.all import *
+from threading import Thread, Event
+from time import sleep
+import netifaces
+import logging
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1082, 771)
+        MainWindow.resize(1094, 771)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.Filters = QtWidgets.QTextEdit(self.centralwidget)
-        self.Filters.setGeometry(QtCore.QRect(20, 50, 821, 31))
+        self.Filters.setGeometry(QtCore.QRect(20, 50, 831, 31))
         self.Filters.setObjectName("Filters")
         self.searchButton = QtWidgets.QPushButton(self.centralwidget)
-        self.searchButton.setGeometry(QtCore.QRect(970, 50, 88, 31))
+        self.searchButton.setGeometry(QtCore.QRect(980, 50, 88, 31))
         self.searchButton.setObjectName("searchButton")
         self.Packets = QtWidgets.QTableWidget(self.centralwidget)
-        self.Packets.setGeometry(QtCore.QRect(20, 90, 1041, 251))
+        self.Packets.setGeometry(QtCore.QRect(20, 90, 1051, 251))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.Packets.sizePolicy().hasHeightForWidth())
+        self.Packets.setSizePolicy(sizePolicy)
+        self.Packets.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.Packets.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.Packets.setLineWidth(1)
+        self.Packets.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.Packets.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.Packets.setAlternatingRowColors(False)
+        self.Packets.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.Packets.setRowCount(0)
-        self.Packets.setColumnCount(7)
+        self.Packets.setColumnCount(6)
         self.Packets.setObjectName("Packets")
         item = QtWidgets.QTableWidgetItem()
         self.Packets.setHorizontalHeaderItem(0, item)
@@ -39,10 +49,16 @@ class Ui_MainWindow(object):
         self.Packets.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
         self.Packets.setHorizontalHeaderItem(5, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Packets.setHorizontalHeaderItem(6, item)
+        self.Packets.horizontalHeader().setCascadingSectionResizes(False)
+        self.Packets.horizontalHeader().setDefaultSectionSize(160)
+        self.Packets.horizontalHeader().setMinimumSectionSize(23)
+        self.Packets.horizontalHeader().setSortIndicatorShown(False)
+        self.Packets.horizontalHeader().setStretchLastSection(True)
+        self.Packets.verticalHeader().setStretchLastSection(True)
         self.packetInfo = QtWidgets.QTreeWidget(self.centralwidget)
-        self.packetInfo.setGeometry(QtCore.QRect(20, 360, 1041, 191))
+        self.packetInfo.setGeometry(QtCore.QRect(20, 360, 1051, 191))
+        self.packetInfo.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.packetInfo.setAlternatingRowColors(False)
         self.packetInfo.setObjectName("packetInfo")
         item_0 = QtWidgets.QTreeWidgetItem(self.packetInfo)
         item_1 = QtWidgets.QTreeWidgetItem(item_0)
@@ -50,10 +66,8 @@ class Ui_MainWindow(object):
         item_1 = QtWidgets.QTreeWidgetItem(item_0)
         item_0 = QtWidgets.QTreeWidgetItem(self.packetInfo)
         item_1 = QtWidgets.QTreeWidgetItem(item_0)
-        item_0 = QtWidgets.QTreeWidgetItem(self.packetInfo)
-        item_0 = QtWidgets.QTreeWidgetItem(self.packetInfo)
         self.packetHex = QtWidgets.QTextBrowser(self.centralwidget)
-        self.packetHex.setGeometry(QtCore.QRect(20, 570, 1041, 131))
+        self.packetHex.setGeometry(QtCore.QRect(20, 570, 1051, 131))
         self.packetHex.setObjectName("packetHex")
         self.interfaceLabel = QtWidgets.QLabel(self.centralwidget)
         self.interfaceLabel.setGeometry(QtCore.QRect(20, 10, 131, 31))
@@ -62,20 +76,20 @@ class Ui_MainWindow(object):
         self.interfaceLabel.setFont(font)
         self.interfaceLabel.setObjectName("interfaceLabel")
         self.interfacesList = QtWidgets.QComboBox(self.centralwidget)
-        self.interfacesList.setGeometry(QtCore.QRect(160, 10, 791, 31))
+        self.interfacesList.setGeometry(QtCore.QRect(160, 10, 801, 31))
         self.interfacesList.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.interfacesList.setAutoFillBackground(False)
         self.interfacesList.setObjectName("interfacesList")
-        self.interfacesList.addItem("")
+        self.interfacesList.addItems(netifaces.interfaces())
         self.captureButton = QtWidgets.QPushButton(self.centralwidget)
-        self.captureButton.setGeometry(QtCore.QRect(970, 10, 88, 31))
+        self.captureButton.setGeometry(QtCore.QRect(980, 10, 88, 31))
         self.captureButton.setObjectName("captureButton")
         self.clearFiltersButton = QtWidgets.QPushButton(self.centralwidget)
-        self.clearFiltersButton.setGeometry(QtCore.QRect(860, 50, 91, 31))
+        self.clearFiltersButton.setGeometry(QtCore.QRect(870, 50, 91, 31))
         self.clearFiltersButton.setObjectName("clearFiltersButton")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1082, 25))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1094, 25))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -129,7 +143,13 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        logging.basicConfig(filename="sniffer.log", format='%(asctime)s %(message)s', filemode='a') 
+        self.logger=logging.getLogger() 
+        self.logger.setLevel(logging.DEBUG)
+        self.logger.info('Interface started!')
+        
         self.actionExit.triggered.connect(sys.exit)
+        self.captureButton.clicked.connect(self.capture_btn_clicked)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -137,18 +157,16 @@ class Ui_MainWindow(object):
         self.Filters.setPlaceholderText(_translate("MainWindow", "Filters"))
         self.searchButton.setText(_translate("MainWindow", "Apply"))
         item = self.Packets.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "No"))
-        item = self.Packets.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Time"))
-        item = self.Packets.horizontalHeaderItem(2)
+        item = self.Packets.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Source"))
-        item = self.Packets.horizontalHeaderItem(3)
+        item = self.Packets.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "Destination"))
-        item = self.Packets.horizontalHeaderItem(4)
+        item = self.Packets.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Protocol"))
-        item = self.Packets.horizontalHeaderItem(5)
+        item = self.Packets.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Length"))
-        item = self.Packets.horizontalHeaderItem(6)
+        item = self.Packets.horizontalHeaderItem(5)
         item.setText(_translate("MainWindow", "Info"))
         __sortingEnabled = self.packetInfo.isSortingEnabled()
         self.packetInfo.setSortingEnabled(False)
@@ -158,12 +176,10 @@ class Ui_MainWindow(object):
         self.packetInfo.topLevelItem(1).child(0).setText(0, _translate("MainWindow", "New Subitem"))
         self.packetInfo.topLevelItem(2).setText(0, _translate("MainWindow", "Transmission control protocol"))
         self.packetInfo.topLevelItem(2).child(0).setText(0, _translate("MainWindow", "New Subitem"))
-        self.packetInfo.topLevelItem(3).setText(0, _translate("MainWindow", "New Item"))
-        self.packetInfo.topLevelItem(4).setText(0, _translate("MainWindow", "New Item"))
         self.packetInfo.setSortingEnabled(__sortingEnabled)
         self.interfaceLabel.setText(_translate("MainWindow", "Choose Interface:"))
         self.interfacesList.setStatusTip(_translate("MainWindow", "Choose Interface for packets capture"))
-        self.interfacesList.setItemText(0, _translate("MainWindow", "Test"))
+        self.interfacesList.setItemText(0, _translate("MainWindow", "Select Interface for Capturing Packets"))
         self.captureButton.setText(_translate("MainWindow", "Capture"))
         self.clearFiltersButton.setText(_translate("MainWindow", "Clear"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
@@ -182,6 +198,86 @@ class Ui_MainWindow(object):
         self.actionInstructions.setText(_translate("MainWindow", "Instructions"))
         self.actionUDP.setText(_translate("MainWindow", "UDP"))
         self.actionTCP.setText(_translate("MainWindow", "TCP"))
+
+    def capture_btn_clicked(self):
+        self.sniff_Class()
+        
+    def sniff_Class(self):
+
+        Outerclass = self
+        interface_chosen = str(self.interfacesList.currentText())
+        
+        try:
+            if(interface_chosen=='Select Interface for Capturing Packets'):
+                self.msg = QtWidgets.QMessageBox()
+                self.msg.setIcon(QtWidgets.QMessageBox.Critical)
+                self.msg.setWindowTitle("Interface error!")
+                self.msg.setText("The selected interface is not a valid interface for capture! \n Please choose a valid interface.")
+                x = self.msg.exec_()
+        except:
+            self.logger.error('Wrong interface selected!')
+            self.captureButton.disconnect()
+        
+        class Sniffer(Thread):
+            current_row = 0
+            def  __init__(self, interface=interface_chosen):
+                super().__init__()
+                self.daemon = True
+                self.socket = None
+                self.interface = interface
+                self.stop_sniffer = Event()
+
+            def run(self):
+                self.socket = conf.L2listen(type=ETH_P_ALL,iface=self.interface,filter="ip")
+                sniff(opened_socket=self.socket,prn=self.print_packet,stop_filter=self.should_stop_sniffer)
+
+            def join(self, timeout=None):
+                self.stop_sniffer.set()
+                super().join(timeout)
+
+            def should_stop_sniffer(self, packet):
+                return self.stop_sniffer.isSet()
+
+            def print_packet(self, packet):
+                ip_layer = packet.getlayer(IP)
+                packet_length = str(len(packet))
+                Outerclass.Packets.insertRow(self.current_row)
+                row_Data = [packet.time,ip_layer.src,ip_layer.dst]
+                
+                print("[!] New Packet: {src} -> {dst}".format(src=ip_layer.src, dst=ip_layer.dst))
+                #print("Raw packet data: " + str(packet))
+                #print(packet.show())
+                #print(packet.show2())
+                #print(packet.display())
+                if(packet.haslayer('TCP')):
+                    row_Data.append('TCP')
+                elif(packet.haslayer('UDP')):
+                    row_Data.append('UDP')
+                elif(packet.haslayer('ICMP')):
+                    row_Data.append('ICMP')
+                
+                row_Data.append(packet_length)
+                row_Data.append('info here')
+                column_number = 0
+                for packet_Data in row_Data:
+                    Outerclass.Packets.setItem(self.current_row,column_number,QtWidgets.QTableWidgetItem(str(packet_Data)))
+                    column_number = column_number + 1
+                
+                self.current_row = self.current_row + 1
+
+        Outerclass.Packets.setRowCount(0)
+        sniffer = Sniffer()
+        self.captureButton.disconnect()
+        sniffer.start()
+
+        try:
+            while True:
+                sleep(100)
+        except KeyboardInterrupt:
+            sniffer.join(2.0)
+
+            if sniffer.is_alive():
+                sniffer.socket.close()   
 
 
 if __name__ == "__main__":

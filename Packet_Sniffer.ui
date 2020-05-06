@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1082</width>
+    <width>1094</width>
     <height>771</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>20</x>
       <y>50</y>
-      <width>821</width>
+      <width>831</width>
       <height>31</height>
      </rect>
     </property>
@@ -30,7 +30,7 @@
    <widget class="QPushButton" name="searchButton">
     <property name="geometry">
      <rect>
-      <x>970</x>
+      <x>980</x>
       <y>50</y>
       <width>88</width>
       <height>31</height>
@@ -45,21 +45,61 @@
      <rect>
       <x>20</x>
       <y>90</y>
-      <width>1041</width>
+      <width>1051</width>
       <height>251</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustToContents</enum>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="alternatingRowColors">
+     <bool>false</bool>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectRows</enum>
     </property>
     <property name="rowCount">
      <number>0</number>
     </property>
     <property name="columnCount">
-     <number>7</number>
+     <number>6</number>
     </property>
-    <column>
-     <property name="text">
-      <string>No</string>
-     </property>
-    </column>
+    <attribute name="horizontalHeaderCascadingSectionResizes">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="horizontalHeaderMinimumSectionSize">
+     <number>23</number>
+    </attribute>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>160</number>
+    </attribute>
+    <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="horizontalHeaderStretchLastSection">
+     <bool>true</bool>
+    </attribute>
+    <attribute name="verticalHeaderStretchLastSection">
+     <bool>true</bool>
+    </attribute>
     <column>
      <property name="text">
       <string>Time</string>
@@ -96,9 +136,15 @@
      <rect>
       <x>20</x>
       <y>360</y>
-      <width>1041</width>
+      <width>1051</width>
       <height>191</height>
      </rect>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="alternatingRowColors">
+     <bool>false</bool>
     </property>
     <column>
      <property name="text">
@@ -135,23 +181,13 @@
       </property>
      </item>
     </item>
-    <item>
-     <property name="text">
-      <string>New Item</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>New Item</string>
-     </property>
-    </item>
    </widget>
    <widget class="QTextBrowser" name="packetHex">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>570</y>
-      <width>1041</width>
+      <width>1051</width>
       <height>131</height>
      </rect>
     </property>
@@ -179,7 +215,7 @@
      <rect>
       <x>160</x>
       <y>10</y>
-      <width>791</width>
+      <width>801</width>
       <height>31</height>
      </rect>
     </property>
@@ -201,7 +237,7 @@
    <widget class="QPushButton" name="captureButton">
     <property name="geometry">
      <rect>
-      <x>970</x>
+      <x>980</x>
       <y>10</y>
       <width>88</width>
       <height>31</height>
@@ -214,7 +250,7 @@
    <widget class="QPushButton" name="clearFiltersButton">
     <property name="geometry">
      <rect>
-      <x>860</x>
+      <x>870</x>
       <y>50</y>
       <width>91</width>
       <height>31</height>
@@ -230,7 +266,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1082</width>
+     <width>1094</width>
      <height>25</height>
     </rect>
    </property>
