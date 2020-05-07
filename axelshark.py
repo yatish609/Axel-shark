@@ -9,6 +9,11 @@ import logging
 
 class SnifferThread(QtCore.QThread):
         connection = QtCore.pyqtSignal(list)
+
+        def __init__(self,selected_iface):
+            super(SnifferThread, self).__init__()
+            self.selected_iface = selected_iface
+        
         def print_packet(self,packet):
             ip_layer = packet.getlayer(IP)
             packet_length = str(len(packet))
@@ -29,7 +34,7 @@ class SnifferThread(QtCore.QThread):
             self.connection.emit(row_Data)
     
         def run(self):
-            sniff(iface='wlo1', filter="ip", prn=self.print_packet)
+            sniff(iface=self.selected_iface, filter="ip", prn=self.print_packet)
 
 
 
@@ -224,9 +229,6 @@ class Ui_MainWindow(object):
         self.actionUDP.setText(_translate("MainWindow", "UDP"))
         self.actionTCP.setText(_translate("MainWindow", "TCP"))
 
-    def getPackets(self):
-        return self.Packets
-
     current_row = 0
     def addRowData(self,Data):
         self.Packets.insertRow(self.current_row)
@@ -248,7 +250,7 @@ class Ui_MainWindow(object):
                 self.msg.exec_()
             else:
                 self.captureButton.setText("Stop")
-                self.Thread = SnifferThread()
+                self.Thread = SnifferThread(interface_chosen)
                 self.Thread.connection.connect(self.addRowData)
                 self.Thread.start()
 
