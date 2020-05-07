@@ -39,6 +39,9 @@ class SnifferThread(QtCore.QThread):
 
             row_Data.append(packet_info)
             row_Data.append(str(packet))
+
+            full_data = str(packet.show(dump=True))
+            row_Data.append(full_data)
             self.connection.emit(row_Data)
     
         def run(self):

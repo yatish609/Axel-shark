@@ -59,10 +59,10 @@ class Ui_MainWindow(object):
         self.packetInfo.setObjectName("packetInfo")
         item_0 = QtWidgets.QTreeWidgetItem(self.packetInfo)
         item_1 = QtWidgets.QTreeWidgetItem(item_0)
-        item_0 = QtWidgets.QTreeWidgetItem(self.packetInfo)
-        item_1 = QtWidgets.QTreeWidgetItem(item_0)
-        item_0 = QtWidgets.QTreeWidgetItem(self.packetInfo)
-        item_1 = QtWidgets.QTreeWidgetItem(item_0)
+        #item_0 = QtWidgets.QTreeWidgetItem(self.packetInfo)
+        #item_1 = QtWidgets.QTreeWidgetItem(item_0)
+        #item_0 = QtWidgets.QTreeWidgetItem(self.packetInfo)
+        #item_1 = QtWidgets.QTreeWidgetItem(item_0)
         self.packetHex = QtWidgets.QTextBrowser(self.centralwidget)
         self.packetHex.setGeometry(QtCore.QRect(20, 570, 1051, 131))
         self.packetHex.setObjectName("packetHex")
@@ -171,12 +171,12 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Info"))
         __sortingEnabled = self.packetInfo.isSortingEnabled()
         self.packetInfo.setSortingEnabled(False)
-        self.packetInfo.topLevelItem(0).setText(0, _translate("MainWindow", "IP"))
-        self.packetInfo.topLevelItem(0).child(0).setText(0, _translate("MainWindow", "New Subitem"))
-        self.packetInfo.topLevelItem(1).setText(0, _translate("MainWindow", "HTTP"))
-        self.packetInfo.topLevelItem(1).child(0).setText(0, _translate("MainWindow", "New Subitem"))
-        self.packetInfo.topLevelItem(2).setText(0, _translate("MainWindow", "Transmission control protocol"))
-        self.packetInfo.topLevelItem(2).child(0).setText(0, _translate("MainWindow", "New Subitem"))
+        self.packetInfo.topLevelItem(0).setText(0, _translate("MainWindow", "Full Packet Data"))
+        #self.packetInfo.topLevelItem(0).child(0).setText(0, _translate("MainWindow", "New Subitem"))
+        #self.packetInfo.topLevelItem(1).setText(0, _translate("MainWindow", "HTTP"))
+        #self.packetInfo.topLevelItem(1).child(0).setText(0, _translate("MainWindow", "New Subitem"))
+        #self.packetInfo.topLevelItem(2).setText(0, _translate("MainWindow", "Transmission control protocol"))
+        #self.packetInfo.topLevelItem(2).child(0).setText(0, _translate("MainWindow", "New Subitem"))
         self.packetInfo.setSortingEnabled(__sortingEnabled)
         self.interfaceLabel.setText(_translate("MainWindow", "Choose Interface:"))
         self.interfacesList.setStatusTip(_translate("MainWindow", "Choose Interface for packets capture"))
@@ -209,6 +209,7 @@ class Ui_MainWindow(object):
             file.close()
 
     packets_Hex = []
+    full_data = []
     current_row = 0
     
     def addRowData(self,Data):
@@ -217,6 +218,10 @@ class Ui_MainWindow(object):
         for packet_Data in Data:
             if(column_number==6):
                 self.packets_Hex.append(packet_Data)
+                column_number = column_number + 1
+                continue
+            if(column_number==7):
+                self.full_data.append(packet_Data)
                 break
             self.Packets.setItem(self.current_row,column_number,QtWidgets.QTableWidgetItem(str(packet_Data)))
             column_number = column_number + 1
@@ -225,6 +230,8 @@ class Ui_MainWindow(object):
     def cell_clicked(self,row,column):
         self.packetHex.clear()
         self.packetHex.setText(self.packets_Hex[row].encode("utf-8").hex())
+        self.packetInfo.topLevelItem(0).child(0).setText(0, self.full_data[row])
+        #self.packetInfo.
 
     capture_btn_state = 'Capture'
     def capture_btn_clicked(self):
