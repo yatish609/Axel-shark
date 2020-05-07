@@ -59,12 +59,14 @@ class Ui_MainWindow(object):
         self.packetInfo.setObjectName("packetInfo")
         item_0 = QtWidgets.QTreeWidgetItem(self.packetInfo)
         item_1 = QtWidgets.QTreeWidgetItem(item_0)
+        font = QtGui.QFont()
+        font.setPointSize(16)
         self.packetHex = QtWidgets.QTextBrowser(self.centralwidget)
         self.packetHex.setGeometry(QtCore.QRect(20, 570, 1051, 131))
         self.packetHex.setObjectName("packetHex")
+        self.packetHex.setFont(font)
         self.interfaceLabel = QtWidgets.QLabel(self.centralwidget)
         self.interfaceLabel.setGeometry(QtCore.QRect(20, 10, 131, 31))
-        font = QtGui.QFont()
         font.setPointSize(12)
         self.interfaceLabel.setFont(font)
         self.interfaceLabel.setObjectName("interfaceLabel")
@@ -240,7 +242,7 @@ class Ui_MainWindow(object):
     
     def cell_clicked(self,row,column):
         self.packetHex.clear()
-        self.packetHex.setText(self.packets_Hex[row].encode("utf-8").hex())
+        self.packetHex.setText(self.packets_Hex[row])
         self.packetInfo.topLevelItem(0).child(0).setText(0, self.full_data[row])
 
     def search_btn_clicked(self):

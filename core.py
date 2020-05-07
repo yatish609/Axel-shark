@@ -38,7 +38,7 @@ class SnifferThread(QtCore.QThread):
                 packet_info = "Unknown Type"
 
             row_Data.append(packet_info)
-            row_Data.append(str(packet))
+            row_Data.append(hexdump(packet,dump=True))
 
             full_data = str(packet.show(dump=True))
             row_Data.append(full_data)
