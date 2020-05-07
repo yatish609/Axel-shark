@@ -1,42 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from scapy.all import *
 from threading import Thread, Event
 from time import sleep
-import netifaces
-import logging
-
-class SnifferThread(QtCore.QThread):
-        connection = QtCore.pyqtSignal(list)
-
-        def __init__(self,selected_iface):
-            super(SnifferThread, self).__init__()
-            self.selected_iface = selected_iface
-        
-        def print_packet(self,packet):
-            ip_layer = packet.getlayer(IP)
-            packet_length = str(len(packet))
-            row_Data = [str(packet.time),str(ip_layer.src),str(ip_layer.dst)]
-            #print("Raw packet data: " + str(packet))
-            #print(packet.show())
-            #print(packet.show2())
-            #print(packet.display())
-            if(packet.haslayer('TCP')):
-                row_Data.append('TCP')
-            elif(packet.haslayer('UDP')):
-                row_Data.append('UDP')
-            elif(packet.haslayer('ICMP')):
-                row_Data.append('ICMP')
-                    
-            row_Data.append(packet_length)
-            row_Data.append('info here')
-            self.connection.emit(row_Data)
-    
-        def run(self):
-            sniff(iface=self.selected_iface, filter="ip", prn=self.print_packet)
-
-
+import netifaces, logging, core
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -180,6 +147,7 @@ class Ui_MainWindow(object):
         
         self.actionExit.triggered.connect(sys.exit)
         self.captureButton.clicked.connect(self.capture_btn_clicked)
+        #self.searchButton.clicked.connect() create a function for connect
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -238,25 +206,31 @@ class Ui_MainWindow(object):
             column_number = column_number + 1
         self.current_row = self.current_row + 1
 
-
+    capture_btn_state = 'Capture'
     def capture_btn_clicked(self):
-        interface_chosen = str(self.interfacesList.currentText())
-        try:
-            if(interface_chosen=='Select Interface for Capturing Packets'):
-                self.msg = QtWidgets.QMessageBox()
-                self.msg.setIcon(QtWidgets.QMessageBox.Critical)
-                self.msg.setWindowTitle("Interface error!")
-                self.msg.setText("Not a valid capture interface! \nPlease choose a valid interface.")
-                self.msg.exec_()
-            else:
-                self.captureButton.setText("Stop")
-                self.Thread = SnifferThread(interface_chosen)
-                self.Thread.connection.connect(self.addRowData)
-                self.Thread.start()
+        if(self.capture_btn_state=='Capture'):
+            interface_chosen = str(self.interfacesList.currentText())
+            try:
+                if(interface_chosen=='Select Interface for Capturing Packets'):
+                    self.msg = QtWidgets.QMessageBox()
+                    self.msg.setIcon(QtWidgets.QMessageBox.Critical)
+                    self.msg.setWindowTitle("Interface error!")
+                    self.msg.setText("Not a valid capture interface! \nPlease choose a valid interface.")
+                    self.msg.exec_()
+                else:
+                    self.capture_btn_state = 'Stop'
+                    self.captureButton.setText("Stop")
+                    self.Thread = core.SnifferThread(interface_chosen)
+                    self.Thread.connection.connect(self.addRowData)
+                    self.Thread.start()
 
-        except:
-            self.logger.error('Wrong interface selected!')
-            self.captureButton.disconnect()
+            except:
+                self.logger.error('Wrong interface selected!')
+                self.captureButton.disconnect()
+        else:
+            self.Thread.stop()
+            #self.Thread.quit()
+            self.captureButton.setText("Capture")
              
 
 if __name__ == "__main__":
