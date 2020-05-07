@@ -147,6 +147,9 @@ class Ui_MainWindow(object):
         
         self.actionExit.triggered.connect(sys.exit)
         self.captureButton.clicked.connect(self.capture_btn_clicked)
+        self.actionSave.triggered.connect(self.file_save)
+
+        self.Packets.cellClicked.connect(self.cell_clicked)
         #self.searchButton.clicked.connect() create a function for connect
 
     def retranslateUi(self, MainWindow):
@@ -197,14 +200,31 @@ class Ui_MainWindow(object):
         self.actionUDP.setText(_translate("MainWindow", "UDP"))
         self.actionTCP.setText(_translate("MainWindow", "TCP"))
 
+    def file_save(self):
+        name,_ = QtWidgets.QFileDialog.getSaveFileName()
+        if name:
+            file = open(name,'w')
+            text = str(type(name))
+            file.write(text)
+            file.close()
+
+    packets_Hex = []
     current_row = 0
+    
     def addRowData(self,Data):
         self.Packets.insertRow(self.current_row)
         column_number = 0
         for packet_Data in Data:
+            if(column_number==6):
+                self.packets_Hex.append(packet_Data)
+                break
             self.Packets.setItem(self.current_row,column_number,QtWidgets.QTableWidgetItem(str(packet_Data)))
             column_number = column_number + 1
         self.current_row = self.current_row + 1
+
+    def cell_clicked(self,row,column):
+        self.packetHex.clear()
+        self.packetHex.setText(self.packets_Hex[row].encode("utf-8").hex())
 
     capture_btn_state = 'Capture'
     def capture_btn_clicked(self):

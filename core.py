@@ -13,7 +13,7 @@ class SnifferThread(QtCore.QThread):
             ip_layer = packet.getlayer(IP)
             packet_length = str(len(packet))
             row_Data = [str(packet.time),str(ip_layer.src),str(ip_layer.dst)]
-            #print("Raw packet data: " + str(packet))
+            
             if(packet.haslayer('TCP')):
                 row_Data.append('TCP')
             elif(packet.haslayer('UDP')):
@@ -38,10 +38,11 @@ class SnifferThread(QtCore.QThread):
                 packet_info = "Unknown Type"
 
             row_Data.append(packet_info)
+            row_Data.append(str(packet))
             self.connection.emit(row_Data)
     
         def run(self):
-            sniff(iface=self.selected_iface, filter="ip", prn=self.print_packet)
+            packets = sniff(iface=self.selected_iface, filter="ip", prn=self.print_packet)
 
         def stop(self):
             self._isRunning = False
