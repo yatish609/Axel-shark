@@ -29,11 +29,11 @@ class SnifferThread(QtCore.QThread):
             if UDP in packet:
                 packet_info = "sport = " + str(packet[UDP].sport) + ", dport = " + str(packet[UDP].dport)
             elif TCP in packet:
-                packet_info = "Sport = " + str(packet[TCP].sport) + ", dport = " + str(packet[TCP].dport)
+                packet_info = "sport = " + str(packet[TCP].sport) + ", dport = " + str(packet[TCP].dport)
             elif ICMP in packet:
                 packet_info = "ICMP Packet"
             elif DNS in packet:
-                packet_info = "Sport = " + str(packet[DNS].sport) + ", dport = " + str(packet[DNS].dport)
+                packet_info = "sport = " + str(packet[DNS].sport) + ", dport = " + str(packet[DNS].dport)
             else:
                 packet_info = "Unknown Type"
 

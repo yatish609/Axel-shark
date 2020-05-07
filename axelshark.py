@@ -59,10 +59,6 @@ class Ui_MainWindow(object):
         self.packetInfo.setObjectName("packetInfo")
         item_0 = QtWidgets.QTreeWidgetItem(self.packetInfo)
         item_1 = QtWidgets.QTreeWidgetItem(item_0)
-        #item_0 = QtWidgets.QTreeWidgetItem(self.packetInfo)
-        #item_1 = QtWidgets.QTreeWidgetItem(item_0)
-        #item_0 = QtWidgets.QTreeWidgetItem(self.packetInfo)
-        #item_1 = QtWidgets.QTreeWidgetItem(item_0)
         self.packetHex = QtWidgets.QTextBrowser(self.centralwidget)
         self.packetHex.setGeometry(QtCore.QRect(20, 570, 1051, 131))
         self.packetHex.setObjectName("packetHex")
@@ -145,16 +141,20 @@ class Ui_MainWindow(object):
         self.logger.setLevel(logging.DEBUG)
         self.logger.info('Interface started!')
         
+        self.actionAbout.triggered.connect(self.about_btn_clicked)
+        self.actionInstructions.triggered.connect(self.instructions_btn_clicked)
         self.actionExit.triggered.connect(sys.exit)
+        self.actionStart_Capture.triggered.connect(self.capture_btn_clicked)
+        self.actionStop_Capture.triggered.connect(self.capture_btn_clicked)
         self.captureButton.clicked.connect(self.capture_btn_clicked)
         self.actionSave.triggered.connect(self.file_save)
 
         self.Packets.cellClicked.connect(self.cell_clicked)
-        #self.searchButton.clicked.connect() create a function for connect
+        #self.searchButton.clicked.connect(self.search_btn_clicked)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Packet Sniffer"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Axel Shark"))
         self.Filters.setPlaceholderText(_translate("MainWindow", "Filters"))
         self.searchButton.setText(_translate("MainWindow", "Apply"))
         item = self.Packets.horizontalHeaderItem(0)
@@ -172,11 +172,6 @@ class Ui_MainWindow(object):
         __sortingEnabled = self.packetInfo.isSortingEnabled()
         self.packetInfo.setSortingEnabled(False)
         self.packetInfo.topLevelItem(0).setText(0, _translate("MainWindow", "Full Packet Data"))
-        #self.packetInfo.topLevelItem(0).child(0).setText(0, _translate("MainWindow", "New Subitem"))
-        #self.packetInfo.topLevelItem(1).setText(0, _translate("MainWindow", "HTTP"))
-        #self.packetInfo.topLevelItem(1).child(0).setText(0, _translate("MainWindow", "New Subitem"))
-        #self.packetInfo.topLevelItem(2).setText(0, _translate("MainWindow", "Transmission control protocol"))
-        #self.packetInfo.topLevelItem(2).child(0).setText(0, _translate("MainWindow", "New Subitem"))
         self.packetInfo.setSortingEnabled(__sortingEnabled)
         self.interfaceLabel.setText(_translate("MainWindow", "Choose Interface:"))
         self.interfacesList.setStatusTip(_translate("MainWindow", "Choose Interface for packets capture"))
@@ -196,18 +191,12 @@ class Ui_MainWindow(object):
         self.actionStart_Capture.setText(_translate("MainWindow", "Start Capture"))
         self.actionStop_Capture.setText(_translate("MainWindow", "Stop Capture"))
         self.actionAbout.setText(_translate("MainWindow", "About"))
-        self.actionInstructions.setText(_translate("MainWindow", "Instructions"))
+        self.actionInstructions.setText(_translate("MainWindow", "Documentation"))
         self.actionUDP.setText(_translate("MainWindow", "UDP"))
         self.actionTCP.setText(_translate("MainWindow", "TCP"))
 
-    def file_save(self):
-        name,_ = QtWidgets.QFileDialog.getSaveFileName()
-        if name:
-            file = open(name,'w')
-            text = str(type(name))
-            file.write(text)
-            file.close()
-
+    #########################################################################################################################
+    ############################## Functions, Event handlers, thread and signal slot connectors #############################
     packets_Hex = []
     full_data = []
     current_row = 0
@@ -227,11 +216,41 @@ class Ui_MainWindow(object):
             column_number = column_number + 1
         self.current_row = self.current_row + 1
 
+    def file_save(self):
+        name,_ = QtWidgets.QFileDialog.getSaveFileName()
+        if name:
+            file = open(name,'w')
+            text = str(type(name))
+            file.write(text)
+            file.close()
+
+    def about_btn_clicked(self):
+        self.msg = QtWidgets.QMessageBox()
+        self.msg.setIcon(QtWidgets.QMessageBox.Information)
+        self.msg.setWindowTitle("About Developer")
+        self.msg.setText("Axel Shark developed solely by yatish609@github \nThis tool is open-source for modifications under GPL-2.0 License.\nWe do not support or endorse any kind of illegal activities.")
+        self.msg.exec_()
+
+    def instructions_btn_clicked(self):
+        self.msg = QtWidgets.QMessageBox()
+        self.msg.setIcon(QtWidgets.QMessageBox.Information)
+        self.msg.setWindowTitle("Documentation")
+        self.msg.setText("Full documentation can be found at yatish609@github")
+        self.msg.exec_()
+    
     def cell_clicked(self,row,column):
         self.packetHex.clear()
         self.packetHex.setText(self.packets_Hex[row].encode("utf-8").hex())
         self.packetInfo.topLevelItem(0).child(0).setText(0, self.full_data[row])
-        #self.packetInfo.
+
+    def search_btn_clicked(self):
+        filter_items = self.Packets.findItems("TCP",QtCore.Qt.MatchExactly)
+        self.Packets.clear()
+        numrows = len(filter_items)
+        self.Packets.setColumnCount(6)
+        self.Packets.setRowCount(numrows)
+        self.Packets.setItem(self.Packets.rowCount(), self.Packets.columnCount(), QtWidgets.QTableWidgetItem((filter_items[self.Packets.rowCount][self.Packets.columnCount])))
+
 
     capture_btn_state = 'Capture'
     def capture_btn_clicked(self):
