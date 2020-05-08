@@ -1,144 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>mainWindow</class>
+ <widget class="QMainWindow" name="mainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1094</width>
-    <height>771</height>
+    <width>1093</width>
+    <height>758</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Packet Sniffer</string>
+   <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTextEdit" name="Filters">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>50</y>
-      <width>831</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>Filters</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="searchButton">
-    <property name="geometry">
-     <rect>
-      <x>980</x>
-      <y>50</y>
-      <width>88</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Apply</string>
-    </property>
-   </widget>
-   <widget class="QTableWidget" name="Packets">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>90</y>
-      <width>1051</width>
-      <height>251</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
-    </property>
-    <property name="lineWidth">
-     <number>1</number>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QAbstractScrollArea::AdjustToContents</enum>
-    </property>
-    <property name="editTriggers">
-     <set>QAbstractItemView::NoEditTriggers</set>
-    </property>
-    <property name="alternatingRowColors">
-     <bool>false</bool>
-    </property>
-    <property name="selectionBehavior">
-     <enum>QAbstractItemView::SelectRows</enum>
-    </property>
-    <property name="rowCount">
-     <number>0</number>
-    </property>
-    <property name="columnCount">
-     <number>6</number>
-    </property>
-    <attribute name="horizontalHeaderCascadingSectionResizes">
-     <bool>false</bool>
-    </attribute>
-    <attribute name="horizontalHeaderMinimumSectionSize">
-     <number>23</number>
-    </attribute>
-    <attribute name="horizontalHeaderDefaultSectionSize">
-     <number>160</number>
-    </attribute>
-    <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-     <bool>false</bool>
-    </attribute>
-    <attribute name="horizontalHeaderStretchLastSection">
-     <bool>true</bool>
-    </attribute>
-    <attribute name="verticalHeaderStretchLastSection">
-     <bool>true</bool>
-    </attribute>
-    <column>
-     <property name="text">
-      <string>Time</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Source</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Destination</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Protocol</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Length</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Info</string>
-     </property>
-    </column>
-   </widget>
    <widget class="QTreeWidget" name="packetInfo">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>360</y>
-      <width>1051</width>
-      <height>191</height>
+      <width>1071</width>
+      <height>172</height>
      </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
     </property>
     <property name="editTriggers">
      <set>QAbstractItemView::NoEditTriggers</set>
@@ -185,39 +71,73 @@
    <widget class="QTextBrowser" name="packetHex">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>570</y>
-      <width>1051</width>
-      <height>131</height>
+      <x>10</x>
+      <y>540</y>
+      <width>1071</width>
+      <height>171</height>
      </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+   </widget>
+   <widget class="QTableView" name="packetsTable">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>1071</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="alternatingRowColors">
+     <bool>true</bool>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectRows</enum>
     </property>
    </widget>
    <widget class="QLabel" name="interfaceLabel">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>10</y>
-      <width>131</width>
-      <height>31</height>
+      <width>81</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>14</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>Choose Interface:</string>
+     <string>Interface:</string>
     </property>
    </widget>
    <widget class="QComboBox" name="interfacesList">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>100</x>
       <y>10</y>
-      <width>801</width>
-      <height>31</height>
+      <width>881</width>
+      <height>28</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="statusTip">
      <string>Choose Interface for packets capture</string>
@@ -228,36 +148,64 @@
     <property name="autoFillBackground">
      <bool>false</bool>
     </property>
+    <property name="currentText">
+     <string>Select Interface for Capturing Packets ...</string>
+    </property>
     <item>
      <property name="text">
-      <string>Test</string>
+      <string>Select Interface for Capturing Packets ...</string>
      </property>
     </item>
    </widget>
    <widget class="QPushButton" name="captureButton">
     <property name="geometry">
      <rect>
-      <x>980</x>
+      <x>990</x>
       <y>10</y>
-      <width>88</width>
-      <height>31</height>
+      <width>91</width>
+      <height>28</height>
      </rect>
     </property>
     <property name="text">
      <string>Capture</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="clearFiltersButton">
+   <widget class="QPlainTextEdit" name="filterBox">
     <property name="geometry">
      <rect>
-      <x>870</x>
+      <x>10</x>
       <y>50</y>
-      <width>91</width>
+      <width>971</width>
       <height>31</height>
      </rect>
     </property>
+    <property name="maximumSize">
+     <size>
+      <width>1033</width>
+      <height>96</height>
+     </size>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="placeholderText">
+     <string>Apply a display filter ...</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="applyButton">
+    <property name="geometry">
+     <rect>
+      <x>990</x>
+      <y>50</y>
+      <width>91</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::StrongFocus</enum>
+    </property>
     <property name="text">
-     <string>Clear</string>
+     <string>Apply</string>
     </property>
    </widget>
   </widget>
@@ -266,7 +214,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1094</width>
+     <width>1093</width>
      <height>25</height>
     </rect>
    </property>
@@ -274,6 +222,7 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
     <addaction name="actionExit"/>
@@ -285,32 +234,31 @@
     <addaction name="actionStart_Capture"/>
     <addaction name="actionStop_Capture"/>
    </widget>
-   <widget class="QMenu" name="menuAbout">
-    <property name="title">
-     <string>Help</string>
-    </property>
-    <addaction name="actionInstructions"/>
-    <addaction name="actionAbout"/>
-   </widget>
    <widget class="QMenu" name="menuFilters">
     <property name="title">
      <string>Filters</string>
     </property>
-    <widget class="QMenu" name="menuFilter_by_type">
-     <property name="title">
-      <string>Filter by type</string>
-     </property>
-     <addaction name="actionUDP"/>
-     <addaction name="actionTCP"/>
-    </widget>
-    <addaction name="menuFilter_by_type"/>
+    <addaction name="actionUDP"/>
+    <addaction name="actionTCP"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionDocumentation"/>
+    <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuCapture"/>
    <addaction name="menuFilters"/>
-   <addaction name="menuAbout"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
   <action name="actionOpen">
    <property name="text">
     <string>Open</string>
@@ -319,12 +267,6 @@
   <action name="actionSave">
    <property name="text">
     <string>Save</string>
-   </property>
-   <property name="statusTip">
-    <string>Saves a file</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionExit">
@@ -342,16 +284,6 @@
     <string>Stop Capture</string>
    </property>
   </action>
-  <action name="actionAbout">
-   <property name="text">
-    <string>About</string>
-   </property>
-  </action>
-  <action name="actionInstructions">
-   <property name="text">
-    <string>Instructions</string>
-   </property>
-  </action>
   <action name="actionUDP">
    <property name="checkable">
     <bool>true</bool>
@@ -366,6 +298,16 @@
    </property>
    <property name="text">
     <string>TCP</string>
+   </property>
+  </action>
+  <action name="actionDocumentation">
+   <property name="text">
+    <string>Documentation</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>

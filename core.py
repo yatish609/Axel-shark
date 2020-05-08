@@ -49,5 +49,5 @@ class SnifferThread(QtCore.QThread):
 
         def stop(self):
             self._isRunning = False
-            self.wait(100)
             self.terminate()
+            self.wait(100)
