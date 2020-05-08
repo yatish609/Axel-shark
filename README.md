@@ -11,11 +11,17 @@ Libraries used:
 
 Based on Python 3.8.2 and compiled using python's own virtualenv.
 
-To run Axel-Shark, type this in the terminal:
+To install dependencies:
+
+~~~
+sudo pip install PyQt5 scapy netifaces
+~~~
+
+To run Axel-Shark:
 
 ~~~
 sudo python3 axelshark.py
 ~~~
 
-NOTE: You need to run the command as root(sudo) as the modules used such as netifaces
+NOTE: You need to run the command as root(sudo) because the modules used such as netifaces and scapy
 require root priveleges to run and sniff packets.

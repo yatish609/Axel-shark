@@ -85,7 +85,6 @@ class Ui_MainWindow(object):
         self.captureButton = QtWidgets.QPushButton(self.centralwidget)
         self.captureButton.setGeometry(QtCore.QRect(980, 10, 88, 31))
         self.captureButton.setObjectName("captureButton")
-        #self.captureButton.setStyleSheet("background-color: red")
         self.clearFiltersButton = QtWidgets.QPushButton(self.centralwidget)
         self.clearFiltersButton.setGeometry(QtCore.QRect(870, 50, 91, 31))
         self.clearFiltersButton.setObjectName("clearFiltersButton")
