@@ -3,8 +3,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from threading import Thread, Event
 from time import sleep
-import netifaces, logging, core
-import pickle
+import psutil, logging, core, pickle
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -81,7 +80,9 @@ class Ui_MainWindow(object):
         self.interfacesList.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.interfacesList.setAutoFillBackground(False)
         self.interfacesList.setObjectName("interfacesList")
-        self.interfacesList.addItems(netifaces.interfaces())
+        interfaces = psutil.net_if_addrs()
+        interfaces = list(interfaces.keys())
+        self.interfacesList.addItems(interfaces)
         self.captureButton = QtWidgets.QPushButton(self.centralwidget)
         self.captureButton.setGeometry(QtCore.QRect(980, 10, 88, 31))
         self.captureButton.setObjectName("captureButton")
