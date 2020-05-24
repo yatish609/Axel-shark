@@ -1,4 +1,7 @@
 capfiles
+
 dist/sniffer.log
-__pycache__/*.pyc
-build/axelshark/
+
+*.pyc
+
+build/axelshark/*
