@@ -16,7 +16,8 @@ Based on Python 3.8.2 and compiled using python's own virtualenv.
 To install dependencies:
 
 ~~~
-sudo pip install PyQt5 tcpdump scapy psutil
+sudo pacman -Syu tcpdump
+sudo pip install PyQt5 scapy psutil
 ~~~
 
 To run Axel-Shark:
