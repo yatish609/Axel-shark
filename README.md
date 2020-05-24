@@ -22,9 +22,15 @@ sudo pip install PyQt5 scapy psutil
 
 To run Axel-Shark:
 
+1. Using source file:
 ~~~
 sudo python3 axelshark.py
 ~~~
 
-NOTE: You need to run the command as root(sudo) because the modules used such as netifaces and scapy
-require root priveleges to run and sniff packets.
+2. Using linux executable:
+~~~
+cd dist
+sudo ./AxelShark
+~~~
+
+NOTE: You need to run the command as root(sudo) because the modules used such as tcpdump and scapy require root priveleges to run and sniff packets.
