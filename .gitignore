@@ -4,4 +4,4 @@ dist/sniffer.log
 
 *.pyc
 
-build/axelshark/*
+build/axelshark/
