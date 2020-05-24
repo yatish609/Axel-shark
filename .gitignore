@@ -1,6 +1,6 @@
 capfiles
 
-dist/sniffer.log
+*.log
 
 *.pyc
 
