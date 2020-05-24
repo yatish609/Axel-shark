@@ -1,3 +1,4 @@
 capfiles
 dist/sniffer.log
-*.pyc
+__pycache__/
+build/
