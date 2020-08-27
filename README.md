@@ -27,10 +27,9 @@ To run Axel-Shark:
 sudo python3 axelshark.py
 ~~~
 
-2. Using linux executable:
+2. Using Windows executable:
 ~~~
-cd dist
-sudo ./AxelShark
+Run dist/axelshark.exe
 ~~~
 
 NOTE: You need to run the command as root(sudo) because the modules used such as tcpdump and scapy require root priveleges to run and sniff packets.
